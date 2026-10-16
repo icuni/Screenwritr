@@ -1,0 +1,22 @@
+name: Screenwritr checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci --no-fund --no-audit
+      - run: npm run check
+      - run: node scripts/package-desktop.mjs
+      - name: Packaged desktop checks
+        shell: pwsh
+        run: |
+          $version = (Get-Content package.json | ConvertFrom-Json).version
+          $env:SCREENWRITR_SMOKE_EXECUTABLE = Join-Path $PWD "release/Screenwritr-$version-win-x64/Screenwritr.exe"
+          npm run test:desktop
