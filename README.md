@@ -13,6 +13,8 @@ Requires Node.js 22.12+ and npm. On Windows, install trusted dependencies with n
 - npm run package — Windows unpacked app in release/Screenwritr-0.1.1-win-x64.
 - npm run dist:win — Windows installer in release.
 
+Prebuilt Windows candidates are release/Screenwritr-0.1.1-win-x64/Screenwritr.exe and release/Screenwritr-0.1.1-Setup.exe. The separate release/Screenwritr-0.1.1.asar module passed launch and MCP checks on a compatible supplied Electron runtime. See [validation](docs/validation.md) for evidence and limits.
+
 The unsigned preview may trigger Windows reputation prompts. Signing and automatic updates are not configured.
 
 ## Workspace

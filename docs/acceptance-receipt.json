@@ -1,0 +1,87 @@
+{
+  "product": "Screenwritr",
+  "version": "0.1.1",
+  "date": "2026-10-16",
+  "domainTests": {
+    "passed": 29,
+    "failed": 0
+  },
+  "packaged": {
+    "passed": true,
+    "checks": [
+      "Sandboxed renderer and isolated preload",
+      "Native edit reaches recoverable story",
+      "Cleared paragraph does not resurrect stale rich text",
+      "Native save writes validated portable project",
+      "Empty Final Draft paragraphs stay editable and project switching restores saved content",
+      "Shipped SQLite/WASM imports KIT CDATA, screenplay, character and location without source modification",
+      "New-story commit resists Escape and repeated shortcuts while dismissal controls are disabled",
+      "New story is durable and revokes the old grant before it becomes visible",
+      "Live MCP reads edited active story and revokes immediately",
+      "All creative workspaces render in native Electron",
+      "Native PDF, Word, FDX, Fountain, HTML and story graph exports",
+      "Close handshake preserves last keystrokes; relaunch restores draft with sharing off"
+    ],
+    "workspaces": [
+      {
+        "name": "Story overview",
+        "violations": []
+      },
+      {
+        "name": "Screenplay",
+        "violations": []
+      },
+      {
+        "name": "Scene board",
+        "violations": []
+      },
+      {
+        "name": "Story world",
+        "violations": []
+      },
+      {
+        "name": "Research",
+        "violations": []
+      },
+      {
+        "name": "Mind map",
+        "violations": []
+      },
+      {
+        "name": "Insights",
+        "violations": []
+      },
+      {
+        "name": "Draft history",
+        "violations": []
+      }
+    ],
+    "rendererErrors": [],
+    "instrumentedTimings": {
+      "startupMs": 24417,
+      "editToAutosaveMs": 2339
+    }
+  },
+  "sharedModule": {
+    "passed": true,
+    "checks": [
+      "Shared ASAR launches on the separately supplied compatible Electron runtime",
+      "Shared-runtime MCP launches through that runtime and reads the active story and profiles",
+      "Shared-runtime consent revokes immediately"
+    ]
+  },
+  "corpus": {
+    "total": 48,
+    "kitsp": 36,
+    "fountain": 10,
+    "fdx": 2,
+    "imported": 48,
+    "mcpCompatible": 48,
+    "originalHashesUnchanged": 48,
+    "independentlyMatchedKitPrimaryScriptText": 36
+  },
+  "productionDependencyVulnerabilities": 0,
+  "fullParity": false,
+  "originalRuntimeComparison": false,
+  "githubPublished": false
+}

@@ -20,7 +20,11 @@ The current production dependency audit reports zero known vulnerabilities. This
 
 ## Native package
 
-Packaged acceptance results are recorded here after the final executable smoke check. The test uses an isolated app profile and synthetic story. Its intended gates cover renderer isolation, editing and clearing text, named save, empty FDX import, SQLite/WASM KIT import, asynchronous new-story dismissal, live MCP reads/revocation, eight workspaces, serious accessibility findings, native exports and immediate-close/relaunch recovery.
+The final packaged executable smoke check passed all 12 gates: renderer isolation, editing/clearing text, named save, empty FDX import, packaged SQLite/WASM KIT import, deterministic delayed-save dialog protection, project-switch grant revocation, live MCP reads/revocation, eight workspaces, six native export formats and immediate-close/relaunch recovery. All eight workspaces returned zero WCAG 2 A/AA and WCAG 2.1 AA axe violations in this run; no renderer errors were recorded. The synthetic aggregate is in [acceptance-receipt.json](acceptance-receipt.json).
+
+A focused close test also passed: the native window closed in 903 ms after the final edit, and relaunch recovered it with sharing off. The initial integrated close harness waited on the attached debugger; it now observes window closure and explicitly detaches the inspector. An overlapping second test window also stalled one capture; final UI verification ran sequentially with each capture brought to the foreground. Corrected receipts are retained locally alongside failures.
+
+The final instrumented smoke recorded 24,417 ms for its relaunch startup and 2,339 ms from simulated typing through autosave. These include debugger/test orchestration and the autosave debounce. They are recorded observations, not evidence of a smoother app or a matched KIT comparison.
 
 Synthetic native screenshots are in output/playwright. Private real-story screenshots stay under .local. PDF export has also been inspected with independent text extraction and page rendering: the title is unnumbered and screenplay numbering starts at 1. Word export has semantic/archive checks; Word application rendering acceptance remains outstanding.
 
@@ -30,7 +34,7 @@ A repeated identical local model workload (clone, append one character, validate
 
 Optional creative workspaces/dialogs load separately. Initial renderer JavaScript is approximately 686 kB before compression, 220 kB gzip; CSS is approximately 66 kB, 14 kB gzip. The initial JavaScript budget still needs improvement.
 
-The installed KIT directory measured 188,241,077 bytes across 135 files. A standalone Electron distribution is heavier; the lighter-install target is unmet. The package also produces a separate Screenwritr ASAR module for a future compatible shared Electron host. Sharing a runtime can reduce the marginal family footprint; a family launcher and cross-product adapters are not implemented.
+The installed KIT directory measured 188,241,077 bytes across 135 files. A standalone Electron distribution is heavier; the lighter-install target is unmet. The package also produces a separate 35,664,205-byte Screenwritr ASAR module. A native module smoke check passed launch, active-story/profile MCP reads and immediate revocation on the separately supplied Electron 44.8.0 runtime. Sharing a runtime can reduce the marginal family footprint; a family launcher and cross-product adapters are not implemented. The standalone unpacked candidate measured about 422 MB; the unsigned installer is about 117 MB compressed.
 
 ## Publication and remaining acceptance
 

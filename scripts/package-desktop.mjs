@@ -45,6 +45,7 @@ await createPackageFromFiles(root,path.join(out,'resources','app.asar'),[...file
 await fs.rename(path.join(out,'electron.exe'),path.join(out,'Screenwritr.exe'));
 await fs.unlink(path.join(out,'resources','default_app.asar')).catch(error=>{if(error.code!=='ENOENT')throw error;});
 for(const [source,name]of [['build/icon.ico','Screenwritr.ico'],['README.md','README.md'],['THIRD-PARTY-NOTICES.txt','THIRD-PARTY-NOTICES.txt']])await fs.copyFile(path.join(root,source),path.join(out,name));
+await fs.cp(path.join(root,'docs'),path.join(out,'docs'),{recursive:true});
 const core=path.join(root,'release','Screenwritr-'+pkg.version+'.asar');await fs.copyFile(path.join(out,'resources','app.asar'),core);
 const hash=async file=>createHash('sha256').update(await fs.readFile(file)).digest('hex');
 const receipt={product:'Screenwritr',version:pkg.version,electron:(await fs.readFile(path.join(out,'version'),'utf8')).trim(),productionPackages:included,archiveEntries:files.size,executableSha256:await hash(path.join(out,'Screenwritr.exe')),asarSha256:await hash(core),coreBytes:(await fs.stat(core)).size,createdAt:new Date().toISOString()};

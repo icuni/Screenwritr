@@ -15,7 +15,7 @@ Date: 16 October 2026. KIT Scenarist 1:1 parity remains incomplete. The upstream
 | Assistant | Active-story MCP, declared/inferred allocations, source IDs, grant/revoke, bounded reads | User's Codex/Claude client connection acceptance; write tools intentionally outside current contract |
 | Creative family | Versioned graph/manifest and stable identity | Actual cross-product adapters and asset synchronization |
 | Collaboration | Local authoring | Cloud coauthoring/accounts/permissions/service interoperability |
-| Distribution | Electron production build and Windows packaging configuration | Signed release, updater, published repository and release acceptance |
+| Distribution | Validated Electron Windows executable, unsigned installer and shared-runtime ASAR | Signed release, updater, published repository and release acceptance |
 | Performance | Local measurements/real-story smoke receipts | Identical-workload KIT baseline; no lighter/smoother comparison established |
 
 The real-story compatibility corpus is kept under ignored .local/real-story-validation. It is not shipped as a demo, used to train a model, or uploaded with source. Import success checks parseability, native validation and MCP compatibility; it does not establish visual parity or lossless vendor editing.
