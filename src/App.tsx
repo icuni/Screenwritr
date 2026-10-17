@@ -1,8 +1,9 @@
-import { BookOpen, Clapperboard, Layers3, Network, BarChart3, Library, UsersRound, Settings2, Search, ChevronDown, ArrowUpRight, Plus, FolderOpen, History, Command, Check, Minus, Square, X, Feather, Upload, Download, PanelLeftClose } from 'lucide-react';
+import { LibraryBig, BookOpen, Clapperboard, Layers3, Network, BarChart3, Library, UsersRound, Settings2, Search, ChevronDown, ArrowUpRight, Plus, FolderOpen, History, Command, Check, Minus, Square, X, Feather, Upload, Download, PanelLeftClose } from 'lucide-react';
 import { useState,lazy,Suspense } from 'react';
 import { useStory } from './store';
 import { IconButton } from './components/ui';
 import { Screenplay } from './views/Screenplay';
+const Gallery=lazy(()=>import('./views/Gallery').then(m=>({default:m.Gallery})));
 const Overview=lazy(()=>import('./views/Overview').then(m=>({default:m.Overview})));
 const World=lazy(()=>import('./views/World').then(m=>({default:m.World})));
 const Board=lazy(()=>import('./views/Board').then(m=>({default:m.Board})));
@@ -13,6 +14,7 @@ const Versions=lazy(()=>import('./views/Versions').then(m=>({default:m.Versions}
 const Dialogs=lazy(()=>import('./components/Dialogs').then(m=>({default:m.Dialogs})));
 
 const navigation = [
+  { id: 'gallery', label: 'Writing gallery', icon: LibraryBig },
   { id: 'overview', label: 'Story overview', icon: BookOpen },
   { id: 'screenplay', label: 'Screenplay', icon: Feather },
   { id: 'board', label: 'Scene board', icon: Layers3 },
@@ -27,8 +29,8 @@ export function App() {
   const { story, view, setView, setDialog, dialog, toast, saveStatus, filePath, open, save, importFile } = useStory();
   const [projectMenu, setProjectMenu] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
-  const focus = Boolean(story.settings.focus);
-  const ActiveView = { screenplay: Screenplay, overview: Overview, world: World, board: Board, mindmap: MindMap, reports: Reports, research: ResearchView, versions: Versions }[view];
+  const focus = view!=='gallery' && Boolean(story.settings.focus);
+  const ActiveView = { gallery: Gallery, screenplay: Screenplay, overview: Overview, world: World, board: Board, mindmap: MindMap, reports: Reports, research: ResearchView, versions: Versions }[view];
   return <><a className="skip-link" href="#main-content">Skip to workspace</a><div className={`app-shell ${focus ? 'is-focused' : ''} ${collapsed ? 'nav-collapsed' : ''}`}>
     <aside className="app-sidebar" aria-label="Main navigation">
       <div className="brand"><span className="brand-symbol">s<span>•</span></span><span className="brand-name">screenwritr<span>A HOME FOR STORIES</span></span></div>
@@ -50,7 +52,7 @@ export function App() {
     </aside>
     <div className="app-main">
       <header className="app-header">
-        <div className="breadcrumbs"><span>{story.title}</span><span className="breadcrumb-slash">/</span><span>{navigation.find(item => item.id === view)?.label}</span><span className="draft-pill">DRAFT {String(story.versions.length + 1).padStart(2,'0')}</span></div>
+        <div className="breadcrumbs"><span>{view==='gallery'?'Your stories':story.title}</span><span className="breadcrumb-slash">/</span><span>{navigation.find(item => item.id === view)?.label}</span>{view!=='gallery'&&<span className="draft-pill">DRAFT {String(story.versions.length + 1).padStart(2,'0')}</span>}</div>
         <div className="header-actions"><IconButton label="Search story (Ctrl K)" onClick={() => setDialog('search')}><Search size={17} /></IconButton><button className="button quiet" onClick={() => setDialog('share')}><Network size={15} />Connect</button><button className="button export-button" onClick={() => setDialog('export')}>Export<ArrowUpRight size={15} /></button></div>
         {window.screenwritr && <div className="window-controls"><IconButton label="Minimize window" onClick={() => window.screenwritr?.windowControls('minimize')}><Minus size={14} /></IconButton><IconButton label="Maximize window" onClick={() => window.screenwritr?.windowControls('maximize')}><Square size={12} /></IconButton><IconButton label="Close window" onClick={() => window.screenwritr?.windowControls('close')}><X size={14} /></IconButton></div>}
       </header>

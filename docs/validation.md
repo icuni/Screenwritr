@@ -1,6 +1,24 @@
 # Validation record
 
-16 October 2026. Development preview 0.1.1. This record separates working checks from the remaining acceptance work in [parity-status.md](parity-status.md).
+17 October 2026. Development preview 0.2.1. This record separates working checks from the remaining acceptance work in [parity-status.md](parity-status.md).
+
+## 0.2.1 Writing Gallery update
+
+17 October 2026. The packaged Writing Gallery passed eight native checks: navigation order, folder indexing, author/format filtering, compact/full desktop layouts, draft continuity, preserved original files, older-named-file protection, Final Cut XML/bundle outlines and close/relaunch persistence. Both light and dark gallery themes returned zero WCAG 2 A/AA and 2.1 AA axe violations; no renderer errors were recorded. The final native window-close observation was 705 ms. This is a smoke observation, not a comparative performance claim.
+
+All 48 authorized root story files indexed successfully in the packaged app: 36 KITSP, 10 Fountain and 2 FDX. Original SHA-256 hashes stayed unchanged. Identifying data and screenshots remain under ignored .local; the anonymous [gallery receipt](gallery-acceptance-receipt.json) contains counts and outcomes.
+
+The production TypeScript/Vite build and all 39 regression tests passed. New coverage includes gallery persistence/cache/query bounds, unavailable files, recovery migration, printable word/entity summaries, baseline preservation, modern/legacy Final Cut XML, directory bundles, unsafe XML rejection and wide-attribute token scanning.
+
+The same packaged executable passed all 12 existing desktop gates, including packaged SQLite/WASM KIT import, edit/save/recovery, live MCP consent and revocation, six export formats and all eight prior workspaces. All eight returned zero axe violations and no renderer errors.
+
+The gallery is lazy loaded. Successful previews are cached by file size and modification time. Parsing runs in a separate process that exits when indexing finishes; cached recovery drafts do not reload their full story bodies just to render the gallery. The shared module is 35,710,046 bytes and passed native launch, MCP profile reads and immediate revocation on the separately supplied compatible Electron runtime. Standalone Electron still does not meet the lighter-install target.
+
+Correction receipts are retained locally. The UI checks exposed dark-theme contrast and an invalid ARIA label, both corrected. The harness now waits for durable saved state rather than a transient status message, and separates native window closure from debugger detachment using the existing longer debugger cleanup bound. Final gallery close/relaunch completed successfully.
+
+Native Final Cut binary project editing remains unsupported. Export FCPXML in Final Cut Pro first; XML imports produce an editable story outline while unsupported media/editing data stays in the original archive. See [gallery formats and limits](writing-gallery.md). Full KIT parity, comparative performance and human visual acceptance remain outstanding.
+
+The sections below retain the earlier 0.1.1 baseline evidence.
 
 ## Source and compatibility
 

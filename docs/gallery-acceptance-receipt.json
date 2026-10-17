@@ -1,0 +1,110 @@
+{
+  "product": "Screenwritr",
+  "version": "0.2.1",
+  "date": "2026-10-17",
+  "regressionTests": {
+    "passed": 39,
+    "failed": 0
+  },
+  "gallery": {
+    "passed": true,
+    "checks": [
+      "Gallery is above Story Overview and indexes Fountain, FDX, Final Cut XML and bundles",
+      "Search by author and format filters return the matching stories",
+      "Native gallery fits compact and full desktop windows; both themes audited",
+      "Switching flushes last edits, revokes sharing, and restores the right working draft without changing the original",
+      "Opening an older saved file keeps the newer local draft under its original identity",
+      "Final Cut XML bundle becomes an editable story outline",
+      "Approved real script folder indexes completely and all original source hashes remain unchanged",
+      "Folders, metadata, recent stories and working drafts survive close and relaunch with sharing off"
+    ],
+    "rendererErrors": [],
+    "accessibility": [
+      {
+        "theme": "light",
+        "items": []
+      },
+      {
+        "theme": "dark",
+        "items": []
+      }
+    ],
+    "timings": {
+      "initialGalleryMs": 9164,
+      "windowCloseMs": 705
+    },
+    "closePhase": "Closed"
+  },
+  "realCorpus": {
+    "files": 48,
+    "formats": {
+      "kitsp": 36,
+      "fountain": 10,
+      "fdx": 2
+    },
+    "originalHashesUnchanged": true,
+    "indexMs": 11356
+  },
+  "privateStoryContentIncluded": false,
+  "comparativePerformanceClaim": false,
+  "packagedDesktop": {
+    "passed": true,
+    "checks": [
+      "Sandboxed renderer and isolated preload",
+      "Native edit reaches recoverable story",
+      "Cleared paragraph does not resurrect stale rich text",
+      "Native save writes validated portable project",
+      "Empty Final Draft paragraphs stay editable and project switching restores saved content",
+      "Shipped SQLite/WASM imports KIT CDATA, screenplay, character and location without source modification",
+      "New-story commit resists Escape and repeated shortcuts while dismissal controls are disabled",
+      "New story is durable and revokes the old grant before it becomes visible",
+      "Live MCP reads edited active story and revokes immediately",
+      "All creative workspaces render in native Electron",
+      "Native PDF, Word, FDX, Fountain, HTML and story graph exports",
+      "Close handshake preserves last keystrokes; relaunch restores draft with sharing off"
+    ],
+    "rendererErrors": [],
+    "accessibility": [
+      {
+        "name": "Story overview",
+        "violations": []
+      },
+      {
+        "name": "Screenplay",
+        "violations": []
+      },
+      {
+        "name": "Scene board",
+        "violations": []
+      },
+      {
+        "name": "Story world",
+        "violations": []
+      },
+      {
+        "name": "Research",
+        "violations": []
+      },
+      {
+        "name": "Mind map",
+        "violations": []
+      },
+      {
+        "name": "Insights",
+        "violations": []
+      },
+      {
+        "name": "Draft history",
+        "violations": []
+      }
+    ]
+  },
+  "sharedRuntime": {
+    "passed": true,
+    "checks": [
+      "Shared ASAR launches on the separately supplied compatible Electron runtime",
+      "Shared-runtime MCP launches through that runtime and reads the active story and profiles",
+      "Shared-runtime consent revokes immediately"
+    ]
+  }
+}

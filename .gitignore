@@ -29,3 +29,9 @@ playwright-report/
 *.celtx
 *.kitsrc
 !tests/fixtures/**
+
+# Final Cut source projects and XML bundles
+*.fcpxml
+*.fcpxmld
+*.fcp
+*.fcpbundle

@@ -20,4 +20,5 @@ jobs:
           $version = (Get-Content package.json | ConvertFrom-Json).version
           $env:SCREENWRITR_SMOKE_EXECUTABLE = Join-Path $PWD "release/Screenwritr-$version-win-x64/Screenwritr.exe"
           npm run test:desktop
+          npm run test:gallery
       - run: node scripts/module-smoke.mjs

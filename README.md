@@ -9,13 +9,18 @@ A local home for screenplays, story worlds and the work around a story. An origi
 Requires Node.js 22.12+ and npm. On Windows, install trusted dependencies with npm ci, then run npm run desktop. Use npm run build followed by npm start for the production renderer.
 
 - npm test — domain, storage, interoperability and actual MCP stdio protocol regressions.
+- npm run test:gallery — native gallery indexing, filters, draft continuity, Final Cut and relaunch checks.
 - npm run test:desktop — native Electron editor, save, PDF/Word/FDX/Fountain/HTML/graph export, recovery and MCP smoke utility. Uses an isolated .local profile and synthetic story.
-- npm run package — Windows unpacked app in release/Screenwritr-0.1.1-win-x64.
+- npm run package — Windows unpacked app in release/Screenwritr-0.2.1-win-x64.
 - npm run dist:win — Windows installer in release.
 
-Prebuilt Windows candidates are release/Screenwritr-0.1.1-win-x64/Screenwritr.exe and release/Screenwritr-0.1.1-Setup.exe. The separate release/Screenwritr-0.1.1.asar module passed launch and MCP checks on a compatible supplied Electron runtime. See [validation](docs/validation.md) for evidence and limits.
+Prebuilt Windows candidates are release/Screenwritr-0.2.1-win-x64/Screenwritr.exe and release/Screenwritr-0.2.1-Setup.exe. The separate release/Screenwritr-0.2.1.asar module passed launch and MCP checks on a compatible supplied Electron runtime. See [validation](docs/validation.md) for evidence and limits.
 
 The unsigned preview may trigger Windows reputation prompts. Signing and automatic updates are not configured.
+
+## Writing Gallery
+
+The app opens into a Writing Gallery above Story Overview. Add story folders or individual files; search titles, authors and summaries; filter formats or recently opened stories; and reopen preserved drafts. KIT Scenarist, Fountain and Final Draft use their existing importers. Final Cut XML and directory XML bundles open as editable outlines; native Final Cut binaries require an XML export from Final Cut Pro. See [gallery behavior and limits](docs/writing-gallery.md).
 
 ## Workspace
 

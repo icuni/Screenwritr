@@ -20,7 +20,21 @@ export interface Story {
   writingSessions: { date: string; words: number; minutes: number }[];
 }
 export interface Scene { id: string; heading: string; number: number; blocks: Block[]; meta: SceneMeta; location: string; time: string; interior: string; characters: string[]; words: number; duration: number; }
+export interface GalleryEntry {
+ id:string;kind:'source'|'draft';storyId?:string;title:string;authors?:string;summary?:string;genre?:string;format:string;
+ status:'ready'|'indexing'|'missing'|'error'|'export-needed';error?:string;filename?:string;folder?:string;updatedAt?:string;lastOpenedAt?:string|null;
+ words?:number;scenes?:number;characters?:number;locations?:number;
+}
+export interface GallerySnapshot {
+ entries:GalleryEntry[];total:number;offset:number;limit:number;version:number;indexing:boolean;progress:{done:number;total:number};
+ folders:{id:string;name:string}[];counts:{drafts:number;files:number};warnings:string[];
+}
 export interface DesktopApi {
+ getGallery:(query?:{search?:string;filter?:string;sort?:string;offset?:number;limit?:number})=>Promise<GallerySnapshot>;
+ refreshGallery:()=>Promise<GallerySnapshot>;
+ addGalleryFiles:()=>Promise<GallerySnapshot|{cancelled:true}>;
+ addGalleryFolder:()=>Promise<GallerySnapshot|{cancelled:true}>;
+ openGalleryEntry:(id:string)=>Promise<{story?:Story;path?:string|null;warnings?:string[];cancelled?:boolean}>;
   load: () => Promise<{ story: Story; path: string | null; recent: { title: string; path: string; updatedAt: string }[] }>;
   save: (story: Story, saveAs?: boolean) => Promise<{ path: string | null; cancelled?: boolean; savedAt?: string }>;
   autosave: (story: Story) => Promise<{ savedAt: string; path: string | null }>;

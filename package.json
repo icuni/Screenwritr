@@ -1,6 +1,6 @@
 {
   "name": "screenwritr",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "private": true,
   "description": "A considered home for stories. Local-first screenwriting and creative development by ICUNI.",
   "type": "module",
@@ -16,10 +16,11 @@
     "test": "node scripts/test.mjs",
     "test:e2e": "node scripts/desktop-smoke.mjs",
     "package": "npm run build && node scripts/package-desktop.mjs",
-    "dist:win": "npm run package && electron-builder --prepackaged release/Screenwritr-0.1.1-win-x64 --win nsis --publish never",
+    "dist:win": "npm run package && electron-builder --prepackaged release/Screenwritr-0.2.1-win-x64 --win nsis --publish never",
     "mcp": "node mcp/server.mjs",
     "check": "npm run build && npm test",
-    "test:desktop": "node scripts/desktop-smoke.mjs"
+    "test:desktop": "node scripts/desktop-smoke.mjs",
+    "test:gallery": "node scripts/gallery-smoke.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.25.0",

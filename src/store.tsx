@@ -2,7 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useRef, useState, ty
 import { createDemoStory, createStory, uid, validateStory, countWords } from '../lib/story.mjs';
 import type { Story } from './model';
 
-type View = 'screenplay' | 'overview' | 'world' | 'board' | 'mindmap' | 'reports' | 'research' | 'versions';
+type View = 'gallery' | 'screenplay' | 'overview' | 'world' | 'board' | 'mindmap' | 'reports' | 'research' | 'versions';
 type Dialog = null | 'new' | 'export' | 'share' | 'settings' | 'search' | 'shortcuts' | 'titlepage';
 interface Store {
   story: Story; edit: (fn: (draft: Story) => void) => void; replace: (story: Story) => void;
@@ -10,13 +10,14 @@ interface Store {
   activeScene: string; setActiveScene: (id: string) => void; activeBlock: string; setActiveBlock: (id: string) => void;
   filePath: string | null; save: (as?: boolean) => Promise<void>; open: () => Promise<void>; importFile: () => Promise<void>;
   beginTransition: () => (() => void) | null;
+  openGallery: (id:string) => Promise<void>;
   saveStatus: string; notify: (message: string) => void; toast: string; ready: boolean;
 }
 const StoryContext = createContext<Store | null>(null);
 const browserKey = 'screenwritr.preview.v1';
 export function StoryProvider({ children }: { children: ReactNode }) {
   const [story, setStory] = useState<Story>(() => createDemoStory() as Story);
-  const [view, setView] = useState<View>('screenplay');
+  const [view, setView] = useState<View>('gallery');
   const [dialog, setDialogState] = useState<Dialog>(null);
   const transition = useRef<{ done: Promise<void> } | null>(null);
   const beginTransition = useCallback(() => {
@@ -101,23 +102,29 @@ export function StoryProvider({ children }: { children: ReactNode }) {
     input.click();
   }, [notify, replace]);
   const open = useCallback(async () => {
-    if (transition.current) return;
+    if (!window.screenwritr) return browserOpen();
+    const release=beginTransition();if(!release)return;
     try {
-      if (!window.screenwritr) return browserOpen();
       await window.screenwritr.autosave(current.current);
       const result = await window.screenwritr.open();
       if (result.story) { replace(result.story); setFilePath(result.path ?? null); notify('Story opened.'); }
-    } catch { notify('The project could not be opened. Your current story is still here.'); }
-  }, [browserOpen, notify, replace]);
+    } catch(error) { notify(error instanceof Error?error.message:'The project could not be opened. Your current story is still here.'); } finally { release(); }
+  }, [browserOpen, notify, replace, beginTransition]);
   const importFile = useCallback(async () => {
-    if (transition.current) return;
+    if (!window.screenwritr) return notify('Open the desktop app to import your story files.');
+    const release=beginTransition();if(!release)return;
     try {
-      if (!window.screenwritr) return notify('Open the desktop app to import KIT Scenarist, Final Draft, Fountain, and Word files.');
       await window.screenwritr.autosave(current.current);
       const result = await window.screenwritr.importStory();
       if (result.story) { replace(result.story); notify(result.warnings?.length ? result.warnings.join(' ') : 'Imported as a new story. Save as to keep your copy.'); }
-    } catch (error) { notify(error instanceof Error ? error.message : 'The file could not be imported.'); }
-  }, [notify, replace]);
+    } catch (error) { notify(error instanceof Error ? error.message : 'The file could not be imported.'); } finally { release(); }
+  }, [notify, replace, beginTransition]);
+  const openGallery=useCallback(async(id:string)=>{
+    const release=beginTransition();if(!release||!window.screenwritr){release?.();return;}
+    try{await window.screenwritr.autosave(current.current);const result=await window.screenwritr.openGalleryEntry(id);
+      if(result.story){replace(result.story);setFilePath(result.path??null);setView('overview');notify(result.warnings?.join(' ')||'Story opened.');}
+    }catch(error){notify(error instanceof Error?error.message:'This story could not be opened.');}finally{release();}
+  },[beginTransition,notify,replace]);
   useEffect(() => {
     const listener = (event: KeyboardEvent) => {
       if (transition.current && (event.key === 'Escape' || event.ctrlKey || event.metaKey)) { event.preventDefault(); event.stopImmediatePropagation(); return; }
@@ -137,6 +144,7 @@ export function StoryProvider({ children }: { children: ReactNode }) {
       if (transition.current) return;
       if (action.startsWith('export:')) { try { await window.screenwritr!.exportStory(current.current, action.slice(7)); } catch { notify('Export could not be completed.'); } return; }
       if (action === 'focus') { edit(draft => { draft.settings.focus = !draft.settings.focus; }); return; }
+      if (action === 'gallery') { setView('gallery'); return; }
       if (action === 'cards') { setView('board'); return; }
       if (action === 'research') { setView('research'); return; }
       if (action === 'statistics') { setView('reports'); return; }
@@ -146,7 +154,7 @@ export function StoryProvider({ children }: { children: ReactNode }) {
     });
     return () => { window.removeEventListener('keydown', listener); cleanup?.(); };
   }, [edit, importFile, open, save, setDialog]);
-  return <StoryContext.Provider value={{ story, edit, replace, view, setView, dialog, setDialog, activeScene, setActiveScene, activeBlock, setActiveBlock, filePath, save, open, importFile, saveStatus, notify, toast, ready, beginTransition }}>{children}</StoryContext.Provider>;
+  return <StoryContext.Provider value={{ story, edit, replace, view, setView, dialog, setDialog, activeScene, setActiveScene, activeBlock, setActiveBlock, filePath, save, open, importFile, saveStatus, notify, toast, ready, beginTransition, openGallery }}>{children}</StoryContext.Provider>;
 }
 export function useStory() { const context = useContext(StoryContext); if (!context) throw new Error('Story provider missing'); return context; }
 export function download(content: string | Blob, name: string, type = 'text/plain') {
